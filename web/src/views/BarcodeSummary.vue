@@ -89,14 +89,14 @@
         <el-form-item label="资产类型">
           <el-input v-model="formData.asset_type" disabled />
         </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="formData.remarks" type="textarea" :rows="3" disabled />
+        </el-form-item>
         <el-form-item label="处理状态">
           <el-switch v-model="formData.result" active-text="已完成" inactive-text="处理中" />
         </el-form-item>
         <el-form-item label="预计处理时间">
           <el-date-picker v-model="formData.expected_time" type="datetime" placeholder="选择时间" />
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="formData.remarks" type="textarea" :rows="3" disabled />
         </el-form-item>
         <el-form-item label="处理结果备注">
           <el-input v-model="formData.result_remarks" type="textarea" :rows="3" />
