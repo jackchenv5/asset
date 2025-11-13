@@ -23,10 +23,10 @@
                 <div class="logo-icon">
                   <i class="el-icon-s-management"></i>
                 </div>
-                <div class="logo-glow"></div>
+                <div class="logo-glow">O</div>
               </div>
             </div>
-            <h2 class="login-title">资产管理系统</h2>
+            <h2 class="login-title">MP资产管理系统</h2>
             <p class="login-subtitle">Asset Management System</p>
           </div>
         </template>

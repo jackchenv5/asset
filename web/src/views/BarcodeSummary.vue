@@ -53,10 +53,9 @@
         />
         <el-pagination
           v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
+          :page-size="20"
           :total="totalCount"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handlePageChange"
+          layout="total, prev, pager, next, jumper"
           @current-change="handlePageChange"
           style="display: flex; justify-content: flex-end;"
         />
@@ -256,6 +255,7 @@ const gridOptions = reactive({
     { field: 'location', title: '位置', width: 180, showOverflow: true },
     { field: 'scanner', title: '扫描人员', width: 120, align: 'center' },
     { field: 'scan_time', title: '扫描时间', width: 150, align: 'center' },
+    { field: 'remarks', title: '扫描备注', width: 150, align: 'center' },
     { field: 'user', title: '使用人', width: 120, align: 'center', showOverflow: true },
     { field: 'asset_type', title: '资产类型', width: 120, align: 'center' },
     { 
@@ -404,10 +404,17 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
+  filterForm.barcode = ''
+  filterForm.model = ''
+  filterForm.location = ''
+  filterForm.scanner = ''
+  filterForm.scan_time = ''
+  filterForm.remarks = ''
   filterForm.user = ''
+  filterForm.asset_type = ''
+  filterForm.result = ''
   filterForm.start_time = ''
   filterForm.end_time = ''
-  filterForm.status = ''
   filterForm.code_type = ''
   fetchData()
 }

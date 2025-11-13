@@ -56,20 +56,24 @@ const authStore = useAuthStore()
 
 const userInfo = computed(() => authStore.user)
 
-const handleCommand = (command) => {
+const handleCommand = async (command) => {
   if (command === 'logout') {
-    ElMessageBox.confirm(
-      '确定要退出登录吗？',
-      '提示',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-    ).then(() => {
-      authStore.logoutAction()
+    try {
+      await ElMessageBox.confirm(
+        '确定要退出登录吗？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      )
+      await authStore.logoutAction()
       router.push('/login')
-    })
+    } catch (error) {
+      // 用户点击取消或发生错误，不执行任何操作
+      console.log('退出登录取消或失败:', error)
+    }
   } else if (command === 'profile') {
     // TODO: 跳转到个人信息页面
   }

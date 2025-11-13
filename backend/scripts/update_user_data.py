@@ -166,7 +166,7 @@ def update_user_fields():
     # 获取所有BarcodeSummary记录
     all_records = BarcodeSummary.objects.all()
     total_records = all_records.count()
-    
+
     print(f"开始并行处理 {total_records} 条记录...")
     print(f"使用批量大小: {BATCH_SIZE}")
     

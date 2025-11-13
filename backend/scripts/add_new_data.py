@@ -168,7 +168,7 @@ def main():
     print(f"开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     # Excel文件路径
-    excel_file = os.path.join(os.path.dirname(project_path), 'data', '新增.xlsx')
+    excel_file = os.path.join(os.path.dirname(project_path), 'data', '2025_1113.xlsx')
     
     if not os.path.exists(excel_file):
         print(f"错误：文件 {excel_file} 不存在")

@@ -53,4 +53,14 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
+// 监听路由变化，确保未登录用户被重定向到登录页
+router.afterEach((to, from) => {
+  const authStore = useAuthStore()
+  
+  // 如果用户未认证且不在登录页面，强制跳转到登录页
+  if (!authStore.isAuthenticated && to.path !== '/login') {
+    router.push('/login')
+  }
+})
+
 export default router

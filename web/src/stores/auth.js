@@ -16,14 +16,18 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // 退出登录
   const logoutAction = async () => {
     try {
       await logout()
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error('退出登录失败:', error)
     } finally {
       user.value = null
       isAuthenticated.value = false
+      // 清除所有本地存储的数据
+      localStorage.clear()
+      sessionStorage.clear()
     }
   }
 
