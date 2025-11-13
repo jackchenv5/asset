@@ -43,8 +43,6 @@ def read_excel_data(file_path):
     """读取Excel文件数据"""
     try:
         df = pd.read_excel(file_path)
-        print(f"Excel文件列名: {df.columns.tolist()}")
-        
         # 检查必要的列是否存在
         if '资产编号' not in df.columns:
             print("错误：Excel文件中未找到'资产编号'列")
@@ -64,7 +62,7 @@ def read_excel_data(file_path):
             if asset_code:  # 只保存非空的资产编号
                 mapping[asset_code] = [current_user,device_type]
         
-        print(f"从Excel文件中读取了 {len(mapping)} 条有效数据")
+        print(f"从Excel文件读取了 {len(mapping)} 条有效数据")
         return mapping
         
     except Exception as e:
@@ -129,8 +127,6 @@ def batch_update_records(updates):
         with count_lock:
             updated_count += len(updates)
         
-        print(f"批量更新了 {len(updates)} 条记录")
-        
     except Exception as e:
         print(f"批量更新失败: {e}")
         # 如果批量更新失败，回退到单个更新
@@ -167,8 +163,7 @@ def update_user_fields():
     all_records = BarcodeSummary.objects.all()
     total_records = all_records.count()
 
-    print(f"开始并行处理 {total_records} 条记录...")
-    print(f"使用批量大小: {BATCH_SIZE}")
+    print(f"开始处理 {total_records} 条记录...")
     
     # 重置计数器
     updated_count = 0
@@ -179,7 +174,6 @@ def update_user_fields():
     
     # 使用线程池进行并行处理
     max_workers = min(8, os.cpu_count() or 4)  # 根据CPU核心数调整线程数
-    print(f"使用 {max_workers} 个线程进行并行处理")
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # 提交所有任务
@@ -189,7 +183,7 @@ def update_user_fields():
             futures.append(future)
         
         # 处理完成的任务
-        for i, future in enumerate[Future](as_completed(futures), 1):
+        for future in as_completed(futures):
             try:
                 update_data = future.result()
                 
@@ -202,22 +196,12 @@ def update_user_fields():
                         if len(batch_updates) >= BATCH_SIZE:
                             batch_update_records(batch_updates[:])
                             batch_updates.clear()
-                
-                # 显示进度
-                if i % 100 == 0:
-                    elapsed_time = time.time() - start_time
-                    rate = i / elapsed_time
-                    remaining = (total_records - i) / rate if rate > 0 else 0
-                    print(f"进度: {i}/{total_records} ({i/total_records*100:.1f}%) - "
-                          f"速度: {rate:.1f} 条/秒 - "
-                          f"预计剩余时间: {remaining/60:.1f} 分钟")
                     
             except Exception as e:
                 print(f"处理记录时出错: {e}")
     
     # 处理剩余的记录
     if batch_updates:
-        print(f"处理剩余的 {len(batch_updates)} 条记录...")
         batch_update_records(batch_updates)
     
     # 结束计时
@@ -226,14 +210,12 @@ def update_user_fields():
     
     # 统计结果
     print("\n" + "="*50)
-    print("并行更新完成！")
+    print("更新完成！")
     print(f"总记录数: {total_records}")
     print(f"已更新: {updated_count}")
     print(f"未找到匹配: {not_found_count}")
     print(f"处理时间: {total_time:.2f} 秒")
     print(f"平均处理速度: {total_records/total_time:.1f} 条/秒")
-    print(f"批处理大小: {BATCH_SIZE}")
-    print(f"线程数: {max_workers}")
 
 if __name__ == '__main__':
     try:
