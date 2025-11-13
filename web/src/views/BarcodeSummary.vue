@@ -39,7 +39,7 @@
           <el-form-item class="button-group">
             <el-button type="primary" @click="handleSearch" size="small">搜索</el-button>
             <el-button @click="handleReset" size="small">重置</el-button>
-            <el-button @click="handleExport" size="small">导出</el-button>
+            <el-button @click="handleExport" size="small" type="warning" style="margin-left: 30px;">导出</el-button>
           </el-form-item>
         </div>
       </el-form>

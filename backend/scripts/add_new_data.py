@@ -1,8 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 新增数据导入脚本
 用于将新增.xlsx文件中的数据导入到BarcodeSummary表中，不会覆盖现有数据
+使用方法: python add_new_data.py [excel文件路径]
+如果不指定文件路径，则使用默认文件
 """
 
 import os
@@ -10,6 +12,7 @@ import sys
 import django
 from datetime import datetime
 import pandas as pd
+from pathlib import Path
 from django.db import transaction
 
 # 设置Django环境
@@ -167,8 +170,17 @@ def main():
     print("=== 新增数据导入脚本 ===")
     print(f"开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    # Excel文件路径
-    excel_file = os.path.join(os.path.dirname(project_path), 'data', '2025_1113.xlsx')
+    # 获取命令行参数中的文件路径
+    if len(sys.argv) > 1:
+        excel_file = sys.argv[1]
+        # 如果是相对路径，转换为绝对路径
+        if not os.path.isabs(excel_file):
+            excel_file = os.path.abspath(excel_file)
+    else:
+        # 使用默认文件路径
+        excel_file = os.path.join(os.path.dirname(project_path), 'data', '2025_11131433.xlsx')
+    
+    print(f"Excel文件路径: {excel_file}")
     
     if not os.path.exists(excel_file):
         print(f"错误：文件 {excel_file} 不存在")
