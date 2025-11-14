@@ -1,5 +1,9 @@
 import axios from 'axios'
 
+// 获取环境变量中的API配置
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8002'
+const API_PREFIX = import.meta.env.VITE_API_PREFIX || '/api'
+
 // 获取 CSRF token 的函数
 const getCookie = (name) => {
   const value = `; ${document.cookie}`
@@ -8,7 +12,7 @@ const getCookie = (name) => {
 }
 
 const request = axios.create({
-  baseURL: '/api',
+  baseURL: API_PREFIX,
   timeout: 10000,
   withCredentials: true  // 启用cookie
 })
